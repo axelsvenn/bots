@@ -2,13 +2,13 @@
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CallbackContext, CommandHandler
 from env import TOKEN
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 # Добавим необходимый объект из модуля telegram.ext
 from telegram.ext import CommandHandler
 
 
 reply_keyboard = [['/address', '/phone'],
-                  ['/site', '/work_time']]
+                  ['/site', '/work_time', '/close']]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
 
 
@@ -41,6 +41,7 @@ def main():
     dp.add_handler(CommandHandler("phone", phone))
     dp.add_handler(CommandHandler("site", site))
     dp.add_handler(CommandHandler("work_time", work_time))
+    dp.add_handler(CommandHandler("close", close_keyboard))
 
     # Создаём обработчик сообщений типа Filters.text
     # из описанной выше функции echo()
@@ -85,8 +86,16 @@ def site(update, context):
     update.message.reply_text(
         "Сайт: http://www.yandex.ru/company")
 
+
 def work_time(update, context):
     update.message.reply_text("Я готов работать все 24/7")
+
+
+def close_keyboard(update, context):
+    update.message.reply_text(
+        "Ok",
+        reply_markup=ReplyKeyboardRemove()
+    )
 
 
 
