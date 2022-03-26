@@ -1,7 +1,6 @@
 # Импортируем необходимые классы.
 from telegram.ext import Updater, MessageHandler, Filters
-from telegram.ext import CallbackContext, CommandHandler
-from env import TOKEN
+from tg.env import TOKEN
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 # Добавим необходимый объект из модуля telegram.ext
 from telegram.ext import CommandHandler
