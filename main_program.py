@@ -2,9 +2,14 @@
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CallbackContext, CommandHandler
 from env import TOKEN
-
+from telegram import ReplyKeyboardMarkup
 # Добавим необходимый объект из модуля telegram.ext
 from telegram.ext import CommandHandler
+
+
+reply_keyboard = [['/address', '/phone'],
+                  ['/site', '/work_time']]
+markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
 
 
 # Определяем функцию-обработчик сообщений.
@@ -31,7 +36,11 @@ def main():
     # Первым параметром конструктора CommandHandler я
     # вляется название команды.
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
+    # Зарегистрируем их в диспетчере.
+    dp.add_handler(CommandHandler("address", address))
+    dp.add_handler(CommandHandler("phone", phone))
+    dp.add_handler(CommandHandler("site", site))
+    dp.add_handler(CommandHandler("work_time", work_time))
 
     # Создаём обработчик сообщений типа Filters.text
     # из описанной выше функции echo()
@@ -50,16 +59,35 @@ def main():
     updater.idle()
 
 
-# Напишем соответствующие функции.
-# Их сигнатура и поведение аналогичны обработчикам текстовых сообщений.
 def start(update, context):
     update.message.reply_text(
-        "Привет! Я эхо-бот. Напишите мне что-нибудь, и я пришлю это назад!")
+        "Я бот-справочник. Какая информация вам нужна?",
+        reply_markup=markup
+    )
 
 
+# Напишем соответствующие функции.
 def help(update, context):
     update.message.reply_text(
         "Я пока не умею помогать... Я только ваше эхо.")
+
+
+def address(update, context):
+    update.message.reply_text(
+        "Адрес: г. Москва, ул. Льва Толстого, 16")
+
+
+def phone(update, context):
+    update.message.reply_text("Телефон: +7(495)776-3030")
+
+
+def site(update, context):
+    update.message.reply_text(
+        "Сайт: http://www.yandex.ru/company")
+
+def work_time(update, context):
+    update.message.reply_text("Я готов работать все 24/7")
+
 
 
 # Запускаем функцию main() в случае запуска скрипта.
